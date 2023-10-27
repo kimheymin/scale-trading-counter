@@ -5,40 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/src/app.css" />
-    <!-- <script src="/src/app.js"></script> -->
-    <script src="/datas/quotes.js" defer></script>
   </head>
   <body>
-    <header class="searchHeader">
-      <div class="header__randomBanner">
-        <!-- <img class="header__img" src="" alt="img" />
-        <p class="header__text">명언</p> -->
+    <div id="root">
+      <!-- 메인 -->
+      <section class="container">
+        <!-- 종목 검색 -->
+        <div class="scockCount__box">
+          <form class="scock__form">
+            <p>종목명</p>
+            <input class="scock__text" type="text" placeholder="종목 검색" />
+            시가 <input type="number" readonly />
+          </form>
+        </div>
+        <div class="divider"></div>
+
+        <!-- 내 주식 정보 -->
+        <div class="myCount_box">
+          <p>내 주식 정보</p>
+          <input type="number" class="myScale count" data-value="" /> 원
+          <input type="number" class="myScale num" /> 주
+        </div>
+      </section>
+
+      <div class="button__area">
+        <button class="calBtn">계산하기</button>
+        <button class="refreshBtn">초기화</button>
       </div>
-      <form class="header__form">
-        <input class="header__text" ="text" placeholder="종목 검색" />
-      </form>
-    </header>
-    <section class="container">
-      <div class="myCount_box">
-        <p>내 주식 단가</p>
-        <label>매입 단가 : <input type="text" /></label>
-        <label>개수 : <input type="text" /> </label>
-        <label>총 금액 : <input type="text" /></label>
-      </div>
-      <div class="scockCount__box">
-        <p>삼성전자 단가</p>
-        <label>현재 시가 : <input type="text" /></label>
-        <label>개수 : <input type="text" /> </label>
-        <label>총 금액 : <input type="text" /></label>
-      </div>
-      <button class="calBtn">계산하기</button>
-    </section>
-    <section class="cal__resultBox">
-      <ul>
-        <li>현재 단가로 0주를 사면 평단가는 0원이 됩니다.</li>
-        <li>그럴 경우, 손실은 0원이 줄어듭니다.</li>
-        <li>주가가 0원 올라야 본전을 찾을 수 있습니다.</li>
-      </ul>
-    </section>
+
+      <!-- 푸터 -->
+      <section class="cal__resultBox">
+        <!-- <ul class="cal__result">
+          <li class="cal__result item">
+            현재 단가로 0주를 사면 평단가는 0원이 됩니다.
+          </li>
+          <li class="cal__result item">그럴 경우, 손실은 0원이 줄어듭니다.</li>
+          <li class="cal__result item">
+            주가가 0원 올라야 본전을 찾을 수 있습니다.
+          </li>
+        </ul> -->
+        <div class="cal__section">
+          <ul class="cal__result">
+            <li class="cal__result item">
+              <span>총 보유 금액</span>
+              <span>0원</span>
+            </li>
+            <li class="cal__result item">
+              <span>손익액</span>
+              <span>0원</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cal__section">
+          <ul class="cal__result">
+            <p class="cal__result__subTitle">추가매수 시</p>
+            <li class="cal__result item">
+              <span>총 보유 금액</span>
+              <span>0원</span>
+            </li>
+            <li class="cal__result item">
+              <span>평단가</span>
+              <span>0원</span>
+            </li>
+            <li class="cal__result item">
+              <span>손익액</span>
+              <span>0원</span>
+            </li>
+            <li class="cal__result item">
+              <span>원금회수 가능 </span>
+              <span>0원</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
   </body>
 </html>

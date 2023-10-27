@@ -1,19 +1,80 @@
-@font-face {
-  font-family: "NPSfontBold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontBold.woff2")
-    format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
 body {
-  margin: 0;
-  font-family: "NPSfontBold";
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  background-color: #f6f1ee;
 }
 
-.header__img {
-  /* width: 100%;
-  height: 100px; */
-  opacity: 0.6;
-  position: relative;
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem;
+}
+
+li {
+  padding: 0.3rem;
+}
+
+#root {
+  background-color: #4f4a45;
+  width: 50%;
+  height: 90%;
+  margin: auto;
+}
+
+.scockCount__box {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #6c5f5b;
+  border-radius: 10px;
+}
+
+.myCount_box {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #6c5f5b;
+  border-radius: 10px;
+}
+
+.button__area {
+  text-align: right;
+}
+
+.button__area button {
+  background-color: #ed7d31;
+  border: none;
+  padding: 8px;
+  margin: 8px 10px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.button__area button:hover {
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+.cal__resultBox {
+  border-radius: 10px;
+
+  background-color: #6c5f5b;
+  /* padding-top: 1rem;
+  margin: 1rem; */
+}
+
+.cal__section {
+  border: 1px solid navy;
+  /* padding-top: 1rem;
+  margin: 1rem; */
+}
+
+.cal__result .item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal__result__subTitle {
+  font-weight: 600;
 }

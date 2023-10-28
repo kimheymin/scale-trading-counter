@@ -2,7 +2,8 @@ body {
   width: 100vw;
   height: 100vh;
   color: white;
-  background-color: #f6f1ee;
+  /* background-color: #f6f1ee; */
+  background-color: #4f4a45;
 }
 
 ul {
@@ -15,29 +16,54 @@ li {
   padding: 0.3rem;
 }
 
+.container p {
+  margin-left: 2rem;
+  /* margin: auto; */
+  /* font-weight: 600; */
+}
+
+input {
+  height: 25px;
+  font-size: 17px;
+  margin: 0 0.5rem 1rem 2rem ;
+  text-align: right;
+  width: 150px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+
 #root {
-  background-color: #4f4a45;
-  width: 50%;
+  /* width: 50%; */
   height: 90%;
   margin: auto;
+  display: flex;
+  justify-content: center;
 }
 
-.scockCount__box {
-  margin: 1rem;
-  padding: 1rem;
-  background-color: #6c5f5b;
-  border-radius: 10px;
+section {
+  margin: 1.5rem;
+  width: 30%;
+  overflow-y: hidden;
+
 }
 
-.myCount_box {
-  margin: 1rem;
+.scock__form {
+  height: 100%;
+}
+
+.scockCount__box, .myCount_box, .water_box {
+  /* margin: 1rem; */
+  margin-bottom: 1rem;
   padding: 1rem;
   background-color: #6c5f5b;
   border-radius: 10px;
 }
 
 .button__area {
-  text-align: right;
+  position: absolute;
+  /* bottom : 10px;
+  right: 10px;  */
 }
 
 .button__area button {
@@ -58,10 +84,13 @@ li {
 
 .cal__resultBox {
   border-radius: 10px;
-
   background-color: #6c5f5b;
+  border: 1px solid salmon;
+  /* height: 50%; */
   /* padding-top: 1rem;
   margin: 1rem; */
+  position : relative;
+
 }
 
 .cal__section {
@@ -77,4 +106,18 @@ li {
 
 .cal__result__subTitle {
   font-weight: 600;
+}
+
+.total {
+  width: 100%;
+}
+.totalMoney, .totalPlus ,.totlaPercent  {
+  text-align: right;
+  width: 50%;
+  margin-right: 1rem;
+
+}
+
+.cal__text {
+  visibility: hidden;
 }

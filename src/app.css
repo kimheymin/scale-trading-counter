@@ -35,10 +35,12 @@ input {
 
 #root {
   /* width: 50%; */
-  height: 90%;
+  height: 100%;
   margin: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
+
 }
 
 section {
@@ -48,16 +50,20 @@ section {
 
 }
 
-.scock__form {
+.stock__form {
   height: 100%;
 }
 
-.scockCount__box, .myCount_box, .water_box {
+.stockCount__box, .myCount_box, .water_box {
   /* margin: 1rem; */
   margin-bottom: 1rem;
   padding: 1rem;
   background-color: #6c5f5b;
   border-radius: 10px;
+}
+
+.water_box {
+
 }
 
 .button__area {
@@ -85,18 +91,18 @@ section {
 .cal__resultBox {
   border-radius: 10px;
   background-color: #6c5f5b;
-  border: 1px solid salmon;
-  /* height: 50%; */
+  height: 45%;
   /* padding-top: 1rem;
   margin: 1rem; */
-  position : relative;
 
 }
 
 .cal__section {
-  border: 1px solid navy;
-  /* padding-top: 1rem;
-  margin: 1rem; */
+  /* padding: 0.5rem; */
+  /* margin-bottom: 1rem; */
+  /* margin: 1rem; */
+  /* background-color: #f6f1ee ; */
+
 }
 
 .cal__result .item {
@@ -120,4 +126,28 @@ section {
 
 .cal__text {
   visibility: hidden;
+}
+
+.final {
+  position : relative;
+
+}
+.memo {
+  visibility: hidden;
+  position: absolute;
+  top : 20px;
+  left: 10rem;
+  border: 1px solid whitesmoke;
+  padding: 1rem;
+  background-color: #ed7d31;
+  /* opacity: 0.5; */
+  color: black;
+  font-weight: 600;
+  /* visibility: ; */
+  /* z-index: 1; */
+}
+
+.final:hover > .memo {
+  visibility: visible;
+  
 }

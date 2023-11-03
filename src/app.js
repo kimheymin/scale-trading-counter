@@ -32,7 +32,9 @@ waterBtn.addEventListener("click", (e) => {
 //계산하기 버튼 클릭 시
 calBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  showStockInfo();
+
+  const inputCheckOk = inputValCheck();
+  inputCheckOk ? showStockInfo() : alert("입력값을 확인해주세요.");
 });
 
 //초기화 버튼 클릭 시
@@ -55,6 +57,14 @@ function addWaterList(num) {
 }
 
 let obj = {};
+
+//입력값 빈값 여부 체크
+function inputValCheck() {
+  const input = document.querySelectorAll("input");
+  const inputArr = Array.prototype.slice.call(input);
+
+  return inputArr.every((val) => val.value !== "");
+}
 
 //input - 3자리마다 , 추가
 function addNumComma() {
@@ -98,7 +108,6 @@ async function data(value) {
   await fetch(reqUrl)
     .then((res) => res.json())
     .then((data) => {
-      // return console.log(data);
       const searchResult = data.response.body.items.item[0].clpr;
       addComma(enterStockVal, searchResult);
     });

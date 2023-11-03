@@ -6,7 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/src/app.css" />
     <script src="/src/app.js" defer></script>
-    <script src="apikey.js"></script>
+    <script src="apikey.js" defer></script>
   </head>
   <body>
     <div id="root">
@@ -25,7 +25,12 @@
               />
             </label>
             <label>
-              <input type="text" class="stock_current" id="stockMoney" />원
+              <input
+                type="text"
+                class="stock_current"
+                id="stockMoney"
+                readonly
+              />원
             </label>
           </div>
           <!-- 내 주식 정보 -->
@@ -84,48 +89,50 @@
             </li>
           </ul>
         </div>
+        <div class="divider"></div>
         <!-- 추가 매수 시 주식 현황 영역 -->
         <div class="cal__section">
           <ul class="cal__result">
             <p class="cal__result__subTitle">추가 매수 시 주식 현황</p>
             <li class="cal__result item">
-              <span>총 매수 금액</span>
+              <span class="total">총 매수 금액</span>
               <span class="resultCnt totalWaterCount"></span>
               <span class="cal__text">원</span>
             </li>
             <li class="cal__result item">
-              <span>평단가</span>
+              <span class="total">평단가</span>
               <span class="resultCnt totalAVG"></span>
               <span class="cal__text">원</span>
             </li>
             <li class="cal__result item">
-              <span>손익</span>
+              <span class="total">손익</span>
               <span class="resultCnt totalPlus2"></span>
               <span class="cal__text">원</span>
             </li>
             <li class="cal__result item">
-              <span>수익률</span>
+              <span class="total">수익률</span>
               <span class="resultCnt totalUpPercent"></span>
               <span class="cal__text">%</span>
             </li>
             <li class="cal__result item final">
               <div class="memo">
-                이 항목은 추가 매수 후 주식의 가격이 얼마나 올라야 손익분기점이
-                되는지 나타내는 수익률입니다.
+                이 항목은 추가 매수 후 주식의 가격이 <br />
+                얼마나 올라야 손익분기점이 되는지 나타내는 수익률입니다.
               </div>
-              <span>원금 회복가능 수익률 * </span>
+              <span class="total">원금 회복가능 수익률 * </span>
               <span class="resultCnt totalPercent2"></span>
               <span class="cal__text">%</span>
             </li>
           </ul>
         </div>
       </section>
-    </div>
-    <!-- 버튼 영역 -->
-    <div class="button__area">
-      <button class="waterBtn">물타기 추가</button>
-      <button class="calBtn">계산하기</button>
-      <button class="refreshBtn">초기화</button>
+
+      <!-- 버튼 영역 -->
+      <div class="button__area">
+        <button class="waterBtn">물타기 추가</button>
+        <button class="calBtn">계산하기</button>
+        <button class="refreshBtn">초기화</button>
+      </div>
     </div>
   </body>
 </html>

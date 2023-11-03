@@ -1,9 +1,9 @@
 body {
-  /* width: 100vw;
-  height: 100vh; */
-  color: white;
-  /* background-color: #f6f1ee; */
-  background-color: #4f4a45;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f6f1ee;
+  display: flex;
+  align-items: center;
 }
 
 ul {
@@ -16,10 +16,11 @@ li {
   padding: 0.3rem;
 }
 
-.container p {
-  margin-left: 2rem;
-  /* margin: auto; */
-  /* font-weight: 600; */
+section {
+  margin: 1.5rem;
+  width: 50%;
+  overflow-y: hidden;
+  min-width: 500px;
 }
 
 input {
@@ -31,76 +32,64 @@ input {
   border-radius: 5px;
   outline: none;
   border: none;
+  padding: 8px;
+  background-color: whitesmoke;
 }
 
 #root {
-  /* width: 50%; */
-  height: 100%;
   margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 1200px;
+  min-width: 600px;
+  position: relative;
 }
 
-section {
-  margin: 1.5rem;
-  width: 30%;
-  overflow-y: hidden;
+@media (max-width: 1000px) {
+  #root {
+    flex-direction: column;
+  }
+}
+
+/* 왼쪽 영역 */
+.container p {
+  margin-left: 2rem;
 }
 
 .stock__form {
   height: 100%;
 }
 
+.stock__text {
+  text-align: left;
+}
+
+.cntBox {
+  width: 80px;
+}
+
 .stockCount__box,
 .myCount_box,
 .water_box {
-  /* margin: 1rem; */
   margin-bottom: 1rem;
   padding: 1rem;
-  background-color: #6c5f5b;
+  background-color: white;
+  border: 1px solid lightgray;
   border-radius: 10px;
 }
 
 .water_box {
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.button__area {
-  text-align: center;
-  /* position: absolute; */
-  /* bottom : 10px;
-  right: 10px;  */
-}
-
-.button__area button {
-  background-color: #ed7d31;
-  border: none;
-  padding: 8px;
-  margin: 8px 10px;
-  font-weight: 600;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.button__area button:hover {
-  opacity: 0.9;
-  transform: scale(1.1);
-}
-
+/* 오른쪽 영역 */
 .cal__resultBox {
   border-radius: 10px;
-  background-color: #6c5f5b;
+  background-color: white;
+  border: 1px solid lightgray;
   height: 45%;
-  /* padding-top: 1rem;
-  margin: 1rem; */
-}
-
-.cal__section {
-  /* padding: 0.5rem; */
-  /* margin-bottom: 1rem; */
-  /* margin: 1rem; */
-  /* background-color: #f6f1ee ; */
 }
 
 .cal__result .item {
@@ -110,6 +99,13 @@ section {
 
 .cal__result__subTitle {
   font-weight: 600;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: lightgray;
+  opacity: 0.5;
 }
 
 .total {
@@ -126,22 +122,17 @@ section {
   visibility: hidden;
 }
 
-.final {
-  position: relative;
-}
 .memo {
   visibility: hidden;
   position: absolute;
-  top: 20px;
-  left: 10rem;
+  bottom: 2rem;
+  right: 2.5rem;
   border: 1px solid whitesmoke;
-  padding: 1rem;
+  padding: 0.8rem;
   background-color: #ed7d31;
-  /* opacity: 0.5; */
   color: black;
-  font-weight: 600;
-  /* visibility: ; */
-  /* z-index: 1; */
+  z-index: 1;
+  font-size: 14px;
 }
 
 .final:hover > .memo {
@@ -149,17 +140,24 @@ section {
   z-index: 1;
 }
 
-.stock__text {
-  text-align: left;
+/* 버튼 영역 */
+.button__area {
+  text-align: center;
 }
 
-.cntBox {
-  width: 80px;
-}
-
-.water__delBtn {
-  float: right;
+.button__area button {
+  background-color: #5ba0f0;
   border: none;
-  padding: 0.5rem;
-  border-radius: 20px;
+  padding: 8px;
+  margin: 8px 10px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  width: 100px;
+}
+
+.button__area button:hover {
+  transform: scale(1.1);
 }

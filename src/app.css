@@ -58,12 +58,20 @@ input {
   margin-left: 2rem;
 }
 
-.stock__form {
-  height: 100%;
-}
-
 .stock__text {
   text-align: left;
+}
+
+.stock_current {
+  width: 100px;
+}
+
+.searchBtn {
+  margin-left: -0.5rem;
+}
+
+.searchBtn:hover {
+  cursor: pointer;
 }
 
 .cntBox {

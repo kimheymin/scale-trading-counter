@@ -66,12 +66,11 @@ function addNumComma() {
 
   for (const inputVal of input) {
     inputVal.addEventListener("keyup", (e) => {
-      let value = e.target.value;
-
       if (inputVal.className === "stock__text") {
         return;
       }
 
+      let value = e.target.value;
       addComma(inputVal, value);
     });
   }
@@ -101,35 +100,40 @@ async function data(value) {
 
 //주식 현황 표시
 function showStockInfo() {
-  const waterstockMoney = document.querySelectorAll(".waterScale"); //매수 주식 단가
-  const waterStockCount = document.querySelectorAll(".waterCnt"); //매수 주식 수량
+  const input = document.querySelectorAll("input");
+  const input_array = Array.prototype.slice.call(input).slice(1);
+  input_array.map(
+    (item) => (item.value = parseInt(item.value.replace(/,/g, "")))
+  );
 
-  let arr1 = []; //총 물타기 금액
-  let arr2 = []; //총 물타기 개수
-  let allCnt = 0;
-  let result = 0;
+  const water_arr = input_array.filter((item, index) => index >= 3);
 
-  waterstockMoney.forEach((money) => {
-    arr1.push(money.value);
+  let waterMoenyArr = []; //총 물타기 금액 담을 배열
+  let waterCntArr = []; //총 물타기 개수 담을 배열
+
+  let waterMoeny = 0; ////총 물타기 금액
+  let waterCnt = 0; //총 물타기 개수
+
+  water_arr.map((item, index) => {
+    if (index % 2 === 0) {
+      return waterMoenyArr.push(Number(item.value));
+    }
+    return waterCntArr.push(Number(item.value));
   });
 
-  waterStockCount.forEach((cnt, index) => {
-    arr2.push(Number(cnt.value));
-
-    allCnt = arr2.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue;
-    }, 0);
-    result += arr1[index] * arr2[index];
-  });
+  for (let i = 0; i < waterMoenyArr.length; i++) {
+    waterMoeny += waterMoenyArr[i] * waterCntArr[i];
+    waterCnt += waterCntArr[i];
+  }
 
   const { stockMoney, myCnt, myMoney } = obj;
 
   const value1 = myMoney * myCnt; //매수 금액
   const value2 = stockMoney * myCnt - value1; //손익
   const value3 = (((stockMoney - myMoney) / myMoney) * 100).toFixed(1); //수익률
-  const value4 = value1 + result; //총 매수 금액
-  const value5 = value4 / (allCnt + myCnt); //평단가
-  const value6 = stockMoney * (allCnt + myCnt) - value4; //손익
+  const value4 = value1 + waterMoeny; //총 매수 금액
+  const value5 = value4 / (waterCnt + myCnt); //평단가
+  const value6 = stockMoney * (waterCnt + myCnt) - value4; //손익
   const value7 = ((value6 / value4) * 100).toFixed(1); //수익률
   const value8 = (((value5 - stockMoney) / stockMoney) * 100).toFixed(1); //원금 회복가능 수익률
 
@@ -149,11 +153,7 @@ function showStockInfo() {
     span_array[i].textContent = valueArr[i].toLocaleString("ko-KR");
   }
 
-  const input = document.querySelectorAll("input");
-  input.forEach((item) => {
-    item.value = parseInt(item.value.replace(/,/g, ""));
-    addComma(item, item.value);
-  });
+  input_array.map((item) => addComma(item, item.value));
 
   const totalText = document.querySelectorAll(".cal__text");
   totalText.forEach((text) => text.setAttribute("style", "visibility:visible"));

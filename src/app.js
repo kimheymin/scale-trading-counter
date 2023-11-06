@@ -150,7 +150,7 @@ function showStockInfo() {
       span_array[i].setAttribute("style", "color:red");
     }
 
-    span_array[i].textContent = valueArr[i].toLocaleString("ko-KR");
+    span_array[i].textContent = Math.floor(valueArr[i]).toLocaleString("ko-KR");
   }
 
   input_array.map((item) => addComma(item, item.value));

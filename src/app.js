@@ -128,17 +128,30 @@ function showStockInfo() {
 
   const { stockMoney, myCnt, myMoney } = obj;
 
-  const value1 = myMoney * myCnt; //매수 금액
-  const value2 = stockMoney * myCnt - value1; //손익
-  const value3 = (((stockMoney - myMoney) / myMoney) * 100).toFixed(1); //수익률
-  const value4 = value1 + waterMoeny; //총 매수 금액
-  const value5 = value4 / (waterCnt + myCnt); //평단가
-  const value6 = stockMoney * (waterCnt + myCnt) - value4; //손익
-  const value7 = ((value6 / value4) * 100).toFixed(1); //수익률
-  const value8 = (((value5 - stockMoney) / stockMoney) * 100).toFixed(1); //원금 회복가능 수익률
+  const totalMoney = myMoney * myCnt; //매수 금액
+  const totalProfit = stockMoney * myCnt - totalMoney; //손익
+  const totalRate = (((stockMoney - myMoney) / myMoney) * 100).toFixed(1); //수익률
+  const waterTotalMoney = totalMoney + waterMoeny; //총 매수 금액
+  const waterTotalAverage = waterTotalMoney / (waterCnt + myCnt); //평단가
+  const waterTotalProfit = stockMoney * (waterCnt + myCnt) - waterTotalMoney; //손익
+  const waterTotalRate = ((waterTotalProfit / waterTotalMoney) * 100).toFixed(
+    1
+  ); //수익률
+  const waterTotalRecovery = (
+    ((waterTotalAverage - stockMoney) / stockMoney) *
+    100
+  ).toFixed(1); //원금 회복가능 수익률
 
-  let valueArr = [];
-  valueArr.push(value1, value2, value3, value4, value5, value6, value7, value8);
+  let valueArr = [
+    totalMoney,
+    totalProfit,
+    totalRate,
+    waterTotalMoney,
+    waterTotalAverage,
+    waterTotalProfit,
+    waterTotalRate,
+    waterTotalRecovery,
+  ];
 
   const span = document.querySelectorAll(".resultCnt");
   const span_array = Array.prototype.slice.call(span);

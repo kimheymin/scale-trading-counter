@@ -20,7 +20,8 @@
 <br />
 
 ## 화면
-![scale-gif](https://github.com/kimheymin/scale-trading-counter/assets/80433501/5e4ce35e-cf97-4f85-9a4e-9c2f94a3ea1a)
+![image](https://github.com/kimheymin/scale-trading-counter/assets/80433501/0d877c23-a363-4213-8fd8-65a2c5ae629f)
+
 
 
 

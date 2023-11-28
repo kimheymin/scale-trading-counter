@@ -113,10 +113,6 @@ input {
   margin-left: 1.5rem;
 }
 
-/* .stockMemo {
-  width: 10px;
-} */
-
 .stock__info .title {
   display: inline-block;
   width: 100px;
@@ -217,18 +213,20 @@ input {
 .resultMemo {
   font-size: 13px;
   font-weight: 500;
-  /* display: inline-block; */
   border: 1px solid lightgray;
   background-color: ghostwhite;
   border-radius: 10px;
   display: none;
 }
 
+.finalText {
+  margin-left: 1rem;
+}
+
 @media (max-width: 1024px) {
   .main {
     width: 90%;
     padding: 0;
-    margin: 0 1rem;
   }
 
   .container__box {

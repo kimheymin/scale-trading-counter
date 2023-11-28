@@ -14,8 +14,11 @@ const waterBox = document.querySelector(".water_box"); //물타기 입력 영역
 const stockMemo = document.querySelector(".stockMemo");
 const resultMemo = document.querySelector(".resultMemo");
 
+let ctx = document.querySelector("#myChart");
+
 let obj = {};
 let clicked = false;
+let chart = "";
 
 dataInit(); //날짜 초기화
 addNumComma();
@@ -55,6 +58,8 @@ searchBtn.addEventListener("click", async () => {
 
 //차트 생성
 function drawChart(data) {
+  chart && chart.destroy();
+
   let chartDate = [];
   let priceData = [];
   let labelName = "";
@@ -65,8 +70,7 @@ function drawChart(data) {
     labelName = item.itmsNm;
   });
 
-  const ctx = document.querySelector("#myChart");
-  new Chart(ctx, {
+  chart = new Chart(ctx, {
     type: "line",
     data: {
       labels: chartDate.reverse(),
@@ -105,8 +109,11 @@ function dataInit() {
   const today = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
   }-${new Date().getDate()}`;
+  const sevenDaysAgo = `${new Date().getFullYear()}-${
+    new Date().getMonth() + 1
+  }-${new Date().getDate() - 7}`;
 
-  startDate.value = today;
+  startDate.value = sevenDaysAgo;
   endDate.value = today;
 }
 
@@ -212,7 +219,6 @@ function showStockInfo() {
     waterCnt += waterCntArr[i];
   }
 
-  console.log(obj);
   const { stockMoney, myCnt, myMoney } = obj;
 
   const totalMoney = myMoney * myCnt; //매수 금액

@@ -1,9 +1,16 @@
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #f6f1ee;
+  max-width: 1500px;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+header {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 ul {
@@ -16,17 +23,10 @@ li {
   padding: 0.3rem;
 }
 
-section {
-  margin: 1.5rem;
-  width: 50%;
-  overflow-y: hidden;
-  min-width: 500px;
-}
-
 input {
   height: 25px;
   font-size: 17px;
-  margin: 0 0.5rem 1rem 2rem;
+  margin: 0 1rem;
   text-align: right;
   width: 150px;
   border-radius: 5px;
@@ -38,54 +38,121 @@ input {
 }
 
 #root {
-  margin: auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 1200px;
-  min-width: 600px;
-  position: relative;
 }
 
-@media (max-width: 1000px) {
-  #root {
-    flex-direction: column;
-  }
+#myChart {
+  border: 1px solid lightgray;
+  background-color: white;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-/* 왼쪽 영역 */
-.container p {
-  margin-left: 2rem;
+.main {
+  margin: auto;
+  width: 70%;
+  padding: 1.5rem;
+  height: 90%;
+}
+
+/* 헤더 영역 */
+.date {
+  text-align: center;
+  margin: 0;
+}
+
+.stock__name {
+  width: 300px;
+  text-align: left;
+}
+
+.chart__button {
+  border: none;
+  background-color: #666;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 0 0.2rem;
+}
+
+.chart__button:hover {
+  background-color: #444;
+}
+
+/* 버튼 영역 */
+.button__area {
+  text-align: right;
+  margin: 1rem 0;
+}
+
+.button__area button {
+  background-color: #5ba0f0;
+  border: none;
+  padding: 8px;
+  margin: 8px 10px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  width: 100px;
+}
+
+.button__area button:hover {
+  transform: scale(1.1);
+}
+
+/* 메인 - 왼쪽 */
+.container {
+  flex: 1;
+}
+
+.box__title {
+  margin-left: 1.5rem;
+}
+
+/* .stockMemo {
+  width: 10px;
+} */
+
+.stock__info .title {
+  display: inline-block;
+  width: 100px;
 }
 
 .stock__text {
   text-align: left;
+  background-color: gainsboro;
 }
 
 .stock_current {
-  width: 100px;
-}
-
-.searchBtn {
-  margin-left: -0.5rem;
-}
-
-.searchBtn:hover {
-  cursor: pointer;
+  width: 150px;
+  background-color: gainsboro;
+  text-align: left;
 }
 
 .cntBox {
   width: 80px;
+  margin-left: 1rem;
 }
 
-.stockCount__box,
-.myCount_box,
-.water_box {
+.stockCount__box {
   margin-bottom: 1rem;
-  padding: 1rem;
+  background-color: whitesmoke;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  width: 80%;
+}
+
+.box {
+  margin-bottom: 1rem;
   background-color: white;
   border: 1px solid lightgray;
   border-radius: 10px;
+  width: 80%;
+  padding-bottom: 1rem;
 }
 
 .water_box {
@@ -93,11 +160,11 @@ input {
   overflow-y: auto;
 }
 
-#stockMoney {
-  background-color: gainsboro;
+.water__list {
+  margin: 8px 0;
 }
 
-/* 오른쪽 영역 */
+/* 메인 - 오른쪽 */
 .cal__resultBox {
   border-radius: 10px;
   background-color: white;
@@ -112,6 +179,7 @@ input {
 
 .cal__result__subTitle {
   font-weight: 600;
+  font-size: 17px;
 }
 
 .divider {
@@ -131,47 +199,91 @@ input {
   margin-right: 1rem;
 }
 
+.totalPercent2 {
+  margin-right: 0;
+}
+
 .cal__text {
   visibility: hidden;
 }
 
-.memo {
-  visibility: hidden;
-  position: absolute;
-  bottom: 2rem;
-  right: 2.5rem;
-  border: 1px solid whitesmoke;
-  padding: 0.8rem;
-  background-color: gainsboro;
-  color: black;
-  z-index: 1;
-  font-size: 14px;
-  color: #333;
+.stockMemo__icon,
+.resultMemo__icon {
+  color: #555;
 }
 
-.final:hover > .memo {
-  visibility: visible;
-  z-index: 1;
-}
-
-/* 버튼 영역 */
-.button__area {
-  text-align: center;
-}
-
-.button__area button {
-  background-color: #5ba0f0;
-  border: none;
-  padding: 8px;
-  margin: 8px 10px;
-  font-weight: 600;
-  font-size: 14px;
+.stockMemo,
+.resultMemo {
+  font-size: 13px;
+  font-weight: 500;
+  /* display: inline-block; */
+  border: 1px solid lightgray;
+  background-color: ghostwhite;
   border-radius: 10px;
-  cursor: pointer;
-  color: white;
-  width: 100px;
+  display: none;
 }
 
-.button__area button:hover {
-  transform: scale(1.1);
+@media (max-width: 1024px) {
+  .main {
+    width: 90%;
+  }
+
+  .container__box {
+    display: flex;
+    flex: 1;
+  }
+
+  .stockCount__box {
+    margin-right: 1rem;
+  }
+
+  .water_box {
+    width: 100%;
+  }
+
+  #root {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .date {
+    width: 100px;
+    font-size: 14px;
+  }
+
+  .stock__name {
+    width: 230px;
+    font-size: 14px;
+  }
+
+  .chart__button {
+    font-size: 14px;
+  }
+
+  .stock__info {
+    display: flex;
+    align-items: center;
+    margin-top: 0.8rem;
+  }
+
+  .myBox input {
+    width: 60%;
+    margin-bottom: 8px;
+    /* display: inline-block; */
+  }
+
+  .water__list input {
+    width: 30%;
+  }
 }

@@ -1,14 +1,114 @@
-const searchBtn = document.querySelector(".searchBtn"); //돋보기 버튼
+const startDate = document.querySelector(".startDate"); //조회 시작일
+const endDate = document.querySelector(".endDate"); //조회 종료일
+const stockName = document.querySelector(".stock__name"); //종목명
+const searchBtn = document.querySelector(".searchBtn"); //조회 버튼
+
+const stockSearchName = document.querySelector(".stock__text"); //조회한 주식 종목명
+const stockSearchVal = document.querySelector(".stock_current"); //조회한 종목 최근 종가
+
 const calBtn = document.querySelector(".calBtn"); //계산하기 버튼
 const refreshBtn = document.querySelector(".refreshBtn"); //초기화 버튼
 const waterBtn = document.querySelector(".waterBtn"); //물타기 추가 버튼
-
-const enterStockVal = document.querySelector(".stock_current"); //주식 종목
 const waterBox = document.querySelector(".water_box"); //물타기 입력 영역
 
-let obj = {};
+const stockMemo = document.querySelector(".stockMemo");
+const resultMemo = document.querySelector(".resultMemo");
 
+let obj = {};
+let clicked = false;
+
+dataInit(); //날짜 초기화
 addNumComma();
+
+//클릭 시 메모 보여주기
+window.addEventListener("click", (e) => {
+  clicked = !clicked;
+
+  if (e.target.className.includes("stockMemo__icon") && clicked) {
+    stockMemo.style.display = "block";
+  } else if (e.target.className.includes("resultMemo__icon") && clicked) {
+    resultMemo.style.display = "block";
+  } else {
+    resultMemo.style.display = "none";
+    stockMemo.style.display = "none";
+  }
+});
+
+// 검색 버튼 클릭 시
+searchBtn.addEventListener("click", async () => {
+  const stockValue = stockName.value; //입력한 주식종목 값
+  if (stockValue.length === 0) {
+    alert("종목명을 입력해주세요.");
+    return;
+  }
+
+  const startDateVal = startDate.value.replace(/-/g, "");
+  const endDateVal = endDate.value.replace(/-/g, "");
+
+  if (startDateVal - endDateVal < -10) {
+    alert("차트 표시를 위해 조회 기간은 10일 이내로 설정해야합니다.");
+    return;
+  }
+
+  data(startDateVal, endDateVal, stockValue);
+});
+
+//차트 생성
+function drawChart(data) {
+  let chartDate = [];
+  let priceData = [];
+  let labelName = "";
+
+  data.item.map((item) => {
+    chartDate.push(item.basDt);
+    priceData.push(item.clpr);
+    labelName = item.itmsNm;
+  });
+
+  const ctx = document.querySelector("#myChart");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: chartDate.reverse(),
+      datasets: [
+        {
+          label: `${labelName} 종가`,
+          data: priceData.reverse(),
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+
+  stockSearchName.value = labelName;
+  stockSearchVal.value = data.item[0].clpr;
+  addComma(stockSearchVal, stockSearchVal.value);
+}
+
+//api 통해 입력한 종목의 가격 가져오기
+async function data(startDate, endDate, stockValue) {
+  const baseURL =
+    "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo";
+  const API_KEY = config.apikey;
+  const reqUrl = `${baseURL}?serviceKey=${API_KEY}&beginBasDt=${startDate}&endBasDt=${endDate}&itmsNm=${stockValue}&resultType=json`;
+
+  await fetch(reqUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      const chartData = data.response.body.items;
+      return drawChart(chartData);
+    });
+}
+
+//초기 날짜 지정
+function dataInit() {
+  const today = `${new Date().getFullYear()}-${
+    new Date().getMonth() + 1
+  }-${new Date().getDate()}`;
+
+  startDate.value = today;
+  endDate.value = today;
+}
 
 let num = 1;
 //물타기 추가 버튼 클릭 시
@@ -17,26 +117,6 @@ waterBtn.addEventListener("click", (e) => {
   num++;
   addWaterList(num);
   addNumComma();
-});
-
-//계산하기 버튼 클릭 시
-calBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  const inputCheckOk = inputValCheck();
-  inputCheckOk ? showStockInfo() : alert("입력값을 확인해주세요.");
-});
-
-//초기화 버튼 클릭 시
-refreshBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  window.location.reload();
-});
-
-//돋보기 버튼 클릭 시
-searchBtn.addEventListener("click", (e) => {
-  const stock = document.querySelector(".stock__text");
-  data(stock.value);
 });
 
 //물타기에 신규 행 추가
@@ -50,14 +130,7 @@ function addWaterList(num) {
   `;
 
   waterBox.appendChild(waterList);
-}
-
-//입력값 빈값 여부 체크
-function inputValCheck() {
-  const input = document.querySelectorAll("input");
-  const inputArr = Array.prototype.slice.call(input);
-
-  return inputArr.every((val) => val.value !== "");
+  waterList.scrollIntoView({ block: "center" });
 }
 
 //input - 3자리마다 , 추가
@@ -66,7 +139,7 @@ function addNumComma() {
 
   for (const inputVal of input) {
     inputVal.addEventListener("keyup", (e) => {
-      if (inputVal.className === "stock__text") {
+      if (inputVal.className === "stock__name") {
         return;
       }
 
@@ -76,6 +149,33 @@ function addNumComma() {
   }
 }
 
+//계산하기 버튼 클릭 시
+calBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const stockValue = stockName.value; //입력한 주식종목 값
+  if (stockValue.length === 0) {
+    return alert("종목 검색 후 계산할 수 있습니다.");
+  }
+
+  const inputCheckOk = inputValCheck();
+  inputCheckOk ? showStockInfo() : alert("입력값을 확인해주세요.");
+});
+
+//초기화 버튼 클릭 시
+refreshBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.location.reload();
+});
+
+//입력값 빈값 여부 체크
+function inputValCheck() {
+  const input = document.querySelectorAll("input");
+  const inputArr = Array.prototype.slice.call(input);
+
+  return inputArr.every((val) => val.value !== "");
+}
+
 function addComma(inputVal, value) {
   value = value && Number(value.replaceAll(",", ""));
   obj[inputVal.id] = value;
@@ -83,55 +183,42 @@ function addComma(inputVal, value) {
   inputVal.value = isNaN(value) ? 0 : value.toLocaleString("ko-KR");
 }
 
-//api 통해 입력한 종목의 최근 측정된 최종 가격 가져오기
-async function data(value) {
-  const baseURL =
-    "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo";
-  const API_KEY = config.apikey;
-  const reqUrl = `${baseURL}?serviceKey=${API_KEY}&resultType=json&itmsNm=${value}`;
-
-  await fetch(reqUrl)
-    .then((res) => res.json())
-    .then((data) => {
-      const searchResult = data.response.body.items.item[0].clpr;
-      addComma(enterStockVal, searchResult);
-    });
-}
-
 //주식 현황 표시
 function showStockInfo() {
   const input = document.querySelectorAll("input");
-  const input_array = Array.prototype.slice.call(input).slice(1);
+  const input_array = Array.prototype.slice.call(input).slice(4);
+
   input_array.map(
     (item) => (item.value = parseInt(item.value.replace(/,/g, "")))
   );
 
   const water_arr = input_array.filter((item, index) => index >= 3);
 
-  let waterMoenyArr = []; //총 물타기 금액 담을 배열
+  let waterMoneyArr = []; //총 물타기 금액 담을 배열
   let waterCntArr = []; //총 물타기 개수 담을 배열
 
-  let waterMoeny = 0; ////총 물타기 금액
+  let waterMoney = 0; ////총 물타기 금액
   let waterCnt = 0; //총 물타기 개수
 
   water_arr.map((item, index) => {
     if (index % 2 === 0) {
-      return waterMoenyArr.push(Number(item.value));
+      return waterMoneyArr.push(Number(item.value));
     }
     return waterCntArr.push(Number(item.value));
   });
 
-  for (let i = 0; i < waterMoenyArr.length; i++) {
-    waterMoeny += waterMoenyArr[i] * waterCntArr[i];
+  for (let i = 0; i < waterMoneyArr.length; i++) {
+    waterMoney += waterMoneyArr[i] * waterCntArr[i];
     waterCnt += waterCntArr[i];
   }
 
+  console.log(obj);
   const { stockMoney, myCnt, myMoney } = obj;
 
   const totalMoney = myMoney * myCnt; //매수 금액
   const totalProfit = stockMoney * myCnt - totalMoney; //손익
   const totalRate = (((stockMoney - myMoney) / myMoney) * 100).toFixed(1); //수익률
-  const waterTotalMoney = totalMoney + waterMoeny; //총 매수 금액
+  const waterTotalMoney = totalMoney + waterMoney; //총 매수 금액
   const waterTotalAverage = waterTotalMoney / (waterCnt + myCnt); //평단가
   const waterTotalProfit = stockMoney * (waterCnt + myCnt) - waterTotalMoney; //손익
   const waterTotalRate = ((waterTotalProfit / waterTotalMoney) * 100).toFixed(
@@ -157,17 +244,12 @@ function showStockInfo() {
   const span_array = Array.prototype.slice.call(span);
 
   for (let i = 0; i < span_array.length; i++) {
-    if (valueArr[i] < 0) {
-      span_array[i].setAttribute("style", "color:blue");
-    } else {
-      span_array[i].setAttribute("style", "color:red");
-    }
-
+    span_array[i].style.color = valueArr[i] < 0 ? "blue" : "red";
     span_array[i].textContent = Math.floor(valueArr[i]).toLocaleString("ko-KR");
   }
 
   input_array.map((item) => addComma(item, item.value));
 
   const totalText = document.querySelectorAll(".cal__text");
-  totalText.forEach((text) => text.setAttribute("style", "visibility:visible"));
+  totalText.forEach((text) => (text.style.visibility = "visible"));
 }

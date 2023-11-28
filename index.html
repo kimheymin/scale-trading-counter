@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>주식 물타기 계산기</title>
     <link rel="stylesheet" href="/src/app.css" />
     <script src="/src/app.js" defer></script>
     <script src="apiKey.js"></script>
@@ -11,122 +11,178 @@
       src="https://kit.fontawesome.com/ef271d3533.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <div id="root">
-      <!-- 왼쪽 영역 -->
-      <section class="container">
-        <!-- 종목 정보 -->
-        <div class="box stockCount__box">
-          <p>종목명</p>
-          <label>
-            <input class="stock__text" type="text" placeholder="종목 검색" />
-          </label>
-          <i class="fa-solid fa-magnifying-glass searchBtn"></i>
-          <label>
-            <input type="text" class="stock_current" id="stockMoney" readonly />원
-          </label>
+    <section class="main">
+      <header>
+        <label for="date"
+          >조회 기간 <input class="date startDate" type="date" /> ~
+          <input class="date endDate" type="date" />
+        </label>
+        <input
+          type="text"
+          class="stock__name"
+          placeholder="주식종목을 정확하게 입력해주세요."
+        />
+        <button class="chart__button searchBtn">검색</button>
+        <!-- <button class="chart__button stockRefreshBtn">주식정보 초기화</button> -->
+      </header>
+
+      <canvas id="myChart" width="300" height="100">
+        <!-- 차트영역 -->
+      </canvas>
+
+      <article>
+        <!-- 버튼 영역 -->
+        <div class="button__area">
+          <button class="waterBtn">물타기 추가</button>
+          <button class="calBtn">계산하기</button>
+          <button class="refreshBtn">초기화</button>
         </div>
-        <!-- 내 주식 정보 -->
-        <div class="box myCount_box">
-          <p>내 주식 정보</p>
-          <label>
-            <input type="text" class="myScale myMoney" id="myMoney" />원
-          </label>
-          <label>
-            <input type="text" class="cntBox myScale myCnt" id="myCnt" />주
-          </label>
-        </div>
-        <!-- 물타기 입력 -->
-        <div class="box water_box">
-          <p>물타기</p>
-          <div class="water__list">
-            <label>
-              <input
-                type="text"
-                class="waterScale addMoney1"
-                id="addMoney1"
-              />원
-            </label>
-            <label>
-              <input
-                type="text"
-                class="cntBox waterCnt addCnt1"
-                id="addCnt1"
-              />주
-            </label>
-          </div>
-        </div>
-      </section>
-      <!-- 오른쪽 영역 -->
-      <section class="cal__resultBox">
-        <!-- 현재 주식 상황 영역 -->
-        <div class="cal__section">
-          <ul class="cal__result">
-            <p class="cal__result__subTitle">현재 주식 현황</p>
-            <li class="cal__result item">
-              <span class="total">매수 금액</span>
-              <span class="resultCnt totalMoney" id="totalMoney"></span>
-              <span class="cal__text">원</span>
-            </li>
-            <li class="cal__result item">
-              <span class="total">손익</span>
-              <span class="resultCnt totalPlus" id="totalPlus"></span>
-              <span class="cal__text">원</span>
-            </li>
-            <li class="cal__result item">
-              <span class="total">수익률</span>
-              <span class="resultCnt totlaPercent" id="totlaPercent"></span>
-              <span class="cal__text">%</span>
-            </li>
-          </ul>
-        </div>
-        <div class="divider"></div>
-        <!-- 추가 매수 시 주식 현황 영역 -->
-        <div class="cal__section">
-          <ul class="cal__result">
-            <p class="cal__result__subTitle">추가 매수 시 주식 현황</p>
-            <li class="cal__result item">
-              <span class="total">총 매수 금액</span>
-              <span
-                class="resultCnt totalWaterCount"
-                id="totalWaterCount"
-              ></span>
-              <span class="cal__text">원</span>
-            </li>
-            <li class="cal__result item">
-              <span class="total">평단가</span>
-              <span class="resultCnt totalAVG" id="totalAVG"></span>
-              <span class="cal__text">원</span>
-            </li>
-            <li class="cal__result item">
-              <span class="total">손익</span>
-              <span class="resultCnt totalPlus2" id="totalPlus2"></span>
-              <span class="cal__text">원</span>
-            </li>
-            <li class="cal__result item">
-              <span class="total">수익률</span>
-              <span class="resultCnt totalUpPercent" id="totalUpPercent"></span>
-              <span class="cal__text">%</span>
-            </li>
-            <li class="cal__result item final">
-              <div class="memo">
-                이 항목은 추가 매수 후 주식의 가격이 얼마나 <br />
-                올라야 손익분기점이 되는지 나타내는 수익률입니다.
+
+        <div id="root">
+          <!-- 왼쪽 영역 -->
+          <section class="container">
+            <div class="container__box">
+              <!-- 종목 정보 -->
+              <div class="stockCount__box">
+                <ul>
+                  <li class="stock__info">
+                    <span class="title">종목명</span>
+                    <input class="stock__text" type="text" readonly />
+                  </li>
+                  <li class="stock__info">
+                    <span class="title"
+                      >최근 종가
+                      <i
+                        class="stockMemo__icon fa-solid fa-circle-exclamation"
+                      ></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="stock_current"
+                      id="stockMoney"
+                      readonly
+                    />원
+                  </li>
+                  <li class="stockMemo">
+                    조회 기간 중 제일 최근 일자의 종가를 나타내는 항목입니다.
+                  </li>
+                </ul>
               </div>
-              <span class="total">원금 회복가능 수익률 * </span>
-              <span class="resultCnt totalPercent2" id="totalPercent2"></span>
-              <span class="cal__text">%</span>
-            </li>
-          </ul>
+              <!-- 내 주식 정보 -->
+              <div class="box myBox">
+                <p class="box__title">내 주식 정보</p>
+                <label>
+                  <input type="text" class="myScale myMoney" id="myMoney" />원
+                </label>
+                <label>
+                  <input
+                    type="text"
+                    class="cntBox myScale myCnt"
+                    id="myCnt"
+                  />주
+                </label>
+              </div>
+            </div>
+            <!-- 물타기 입력 -->
+            <div class="box water_box">
+              <p class="box__title">물타기</p>
+              <div class="water__list">
+                <label>
+                  <input
+                    type="text"
+                    class="waterScale addMoney1"
+                    id="addMoney1"
+                  />원
+                </label>
+                <label>
+                  <input
+                    type="text"
+                    class="cntBox waterCnt addCnt1"
+                    id="addCnt1"
+                  />주
+                </label>
+              </div>
+            </div>
+          </section>
+          <!-- 오른쪽 영역 -->
+          <section class="container cal__resultBox">
+            <!-- 현재 주식 상황 영역 -->
+            <div class="cal__section">
+              <ul class="cal__result">
+                <p class="cal__result__subTitle">현재 주식 현황</p>
+                <li class="cal__result item">
+                  <span class="total">매수 금액</span>
+                  <span class="resultCnt totalMoney" id="totalMoney"></span>
+                  <span class="cal__text">원</span>
+                </li>
+                <li class="cal__result item">
+                  <span class="total">손익</span>
+                  <span class="resultCnt totalPlus" id="totalPlus"></span>
+                  <span class="cal__text">원</span>
+                </li>
+                <li class="cal__result item">
+                  <span class="total">수익률</span>
+                  <span class="resultCnt totlaPercent" id="totlaPercent"></span>
+                  <span class="cal__text">%</span>
+                </li>
+              </ul>
+            </div>
+            <div class="divider"></div>
+            <!-- 추가 매수 시 주식 현황 영역 -->
+            <div class="cal__section">
+              <ul class="cal__result">
+                <p class="cal__result__subTitle">추가 매수 시 주식 현황</p>
+                <li class="cal__result item">
+                  <span class="total">총 매수 금액</span>
+                  <span
+                    class="resultCnt totalWaterCount"
+                    id="totalWaterCount"
+                  ></span>
+                  <span class="cal__text">원</span>
+                </li>
+                <li class="cal__result item">
+                  <span class="total">평단가</span>
+                  <span class="resultCnt totalAVG" id="totalAVG"></span>
+                  <span class="cal__text">원</span>
+                </li>
+                <li class="cal__result item">
+                  <span class="total">손익</span>
+                  <span class="resultCnt totalPlus2" id="totalPlus2"></span>
+                  <span class="cal__text">원</span>
+                </li>
+                <li class="cal__result item">
+                  <span class="total">수익률</span>
+                  <span
+                    class="resultCnt totalUpPercent"
+                    id="totalUpPercent"
+                  ></span>
+                  <span class="cal__text">%</span>
+                </li>
+                <li class="cal__result item">
+                  <div>
+                    <span class="total">원금 회복가능 수익률</span>
+                    <i
+                      class="resultMemo__icon fa-solid fa-circle-exclamation"
+                    ></i>
+                  </div>
+                  <span
+                    class="resultCnt totalPercent2"
+                    id="totalPercent2"
+                  ></span>
+                  <span class="cal__text">%</span>
+                </li>
+                <li class="resultMemo">
+                  추가 매수 후 주식의 가격이 얼마나 올라야 손익분기점이 되는지
+                  나타내는 수익률입니다.
+                </li>
+              </ul>
+            </div>
+          </section>
         </div>
-      </section>
-      <!-- 버튼 영역 -->
-      <div class="button__area">
-        <button class="waterBtn">물타기 추가</button>
-        <button class="calBtn">계산하기</button>
-        <button class="refreshBtn">초기화</button>
-      </div>
-    </div>
+      </article>
+    </section>
   </body>
 </html>

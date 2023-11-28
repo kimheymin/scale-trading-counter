@@ -70,11 +70,11 @@ input {
   border: none;
   background-color: #666;
   color: white;
-  padding: 10px;
+  height: 42px;
+  /* padding: 10px; */
   border-radius: 5px;
   font-size: 15px;
   cursor: pointer;
-  margin: 0 0.2rem;
 }
 
 .chart__button:hover {
@@ -205,6 +205,7 @@ input {
 
 .cal__text {
   visibility: hidden;
+  width: 30px;
 }
 
 .stockMemo__icon,
@@ -276,6 +277,7 @@ input {
   .header__input {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .header__input input {
@@ -287,6 +289,10 @@ input {
   .date {
     width: 100px;
     font-size: 14px;
+  }
+
+  .chart__button {
+    margin-top: 4px;
   }
 
   .stockCount__box ul {

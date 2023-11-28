@@ -235,6 +235,15 @@ input {
 
   .stockCount__box {
     margin-right: 1rem;
+    width: 100%;
+  }
+
+  .myBox {
+    width: 100%;
+  }
+
+  .myBox input {
+    margin-bottom: 8px;
   }
 
   .water_box {
@@ -253,13 +262,29 @@ input {
 
   header {
     display: inline-block;
-    text-align: center;
+    text-align: left;
     font-size: 14px;
+    width: 100%;
+  }
+
+  .header__input {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .header__input input {
+    margin: 0;
+    width: 80%;
+    margin-top: 4px;
   }
 
   .date {
     width: 100px;
     font-size: 14px;
+  }
+
+  .stockCount__box ul {
+    margin: 1rem;
   }
 
   .stock__name {
@@ -274,16 +299,9 @@ input {
   .stock__info {
     display: flex;
     align-items: center;
-    margin-top: 0.8rem;
   }
 
-  .myBox input {
-    width: 60%;
-    margin-bottom: 8px;
-    /* display: inline-block; */
-  }
-
-  .water__list input {
-    width: 30%;
+  .button__area {
+    text-align: center;
   }
 }

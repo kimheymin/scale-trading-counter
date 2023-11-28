@@ -16,16 +16,18 @@
   <body>
     <section class="main">
       <header>
-        <label for="date"
+        <label
           >조회 기간 <input class="date startDate" type="date" /> ~
           <input class="date endDate" type="date" />
         </label>
-        <input
-          type="text"
-          class="stock__name"
-          placeholder="주식종목을 정확하게 입력해주세요."
-        />
-        <button class="chart__button searchBtn">검색</button>
+        <div class="header__input">
+          <input
+            type="text"
+            class="stock__name"
+            placeholder="주식종목을 정확하게 입력해주세요."
+          />
+          <button class="chart__button searchBtn">검색</button>
+        </div>
         <!-- <button class="chart__button stockRefreshBtn">주식정보 초기화</button> -->
       </header>
 
@@ -44,47 +46,41 @@
         <div id="root">
           <!-- 왼쪽 영역 -->
           <section class="container">
-            <div class="container__box">
-              <!-- 종목 정보 -->
-              <div class="stockCount__box">
-                <ul>
-                  <li class="stock__info">
-                    <span class="title">종목명</span>
-                    <input class="stock__text" type="text" readonly />
-                  </li>
-                  <li class="stock__info">
-                    <span class="title"
-                      >최근 종가
-                      <i
-                        class="stockMemo__icon fa-solid fa-circle-exclamation"
-                      ></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="stock_current"
-                      id="stockMoney"
-                      readonly
-                    />원
-                  </li>
-                  <li class="stockMemo">
-                    조회 기간 중 제일 최근 일자의 종가를 나타내는 항목입니다.
-                  </li>
-                </ul>
-              </div>
-              <!-- 내 주식 정보 -->
-              <div class="box myBox">
-                <p class="box__title">내 주식 정보</p>
-                <label>
-                  <input type="text" class="myScale myMoney" id="myMoney" />원
-                </label>
-                <label>
+            <!-- 종목 정보 -->
+            <div class="stockCount__box">
+              <ul>
+                <li class="stock__info">
+                  <span class="title">종목명</span>
+                  <input class="stock__text" type="text" readonly />
+                </li>
+                <li class="stock__info">
+                  <span class="title"
+                    >최근 종가
+                    <i
+                      class="stockMemo__icon fa-solid fa-circle-exclamation"
+                    ></i
+                  ></span>
                   <input
                     type="text"
-                    class="cntBox myScale myCnt"
-                    id="myCnt"
-                  />주
-                </label>
-              </div>
+                    class="stock_current"
+                    id="stockMoney"
+                    readonly
+                  />원
+                </li>
+                <li class="stockMemo">
+                  조회 기간 중 제일 최근 일자의 종가를 나타내는 항목입니다.
+                </li>
+              </ul>
+            </div>
+            <!-- 내 주식 정보 -->
+            <div class="box myBox">
+              <p class="box__title">내 주식 정보</p>
+              <label>
+                <input type="text" class="myScale myMoney" id="myMoney" />원
+              </label>
+              <label>
+                <input type="text" class="cntBox myScale myCnt" id="myCnt" />주
+              </label>
             </div>
             <!-- 물타기 입력 -->
             <div class="box water_box">
